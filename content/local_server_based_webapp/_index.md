@@ -1,7 +1,6 @@
 ---
 title: 'Local server based Web Application'
-outputs:
-  - 'Reveal'
+outputs: 'Reveal'
 draft: false
 ---
 
