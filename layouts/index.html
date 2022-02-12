@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>https://yusukebe.github.io/slides</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+    <head prefix="og: http://ogp.me/ns#" />
+  </head>
+  <body>
+    <div style="padding: 2rem">
+      <header>
+        <h1>My Slides</h1>
+      </header>
+      <div style="margin: 2rem 0">
+        <ul>
+          {{ range .Pages }}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+      <footer>
+        &copy; Yuuske Wada
+        <a href="https://github.com/yusukebe">https://github.com/yusukebe</a>
+      </footer>
+    </div>
+  </body>
+</html>
