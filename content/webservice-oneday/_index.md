@@ -19,7 +19,7 @@ by [Yusuke Wada a.k.a yusukebe](http://yusukebe.com/)
 ### 自己紹介
 
 - 和田裕介 / Yusuke Wada
-- 1981年生 / 横浜住み / 独身
+- 1981年生
 - (株) ワディット代表取締役
 - (株) オモロキ取締役兼最高技術責任者
 - Web Application Developer
@@ -54,7 +54,6 @@ by [Yusuke Wada a.k.a yusukebe](http://yusukebe.com/)
 - [君のラジオ](http://kimi.la/)
 - anpiレポート
 - CDTube
-- 某アダルトサイト達
 
 ---
 
