@@ -1,7 +1,9 @@
-+++
-title = "My presentation"
-outputs = ["Reveal"]
-+++
+---
+title: 'Local server based Web Application'
+outputs:
+  - 'Reveal'
+draft: false
+---
 
 # Local server based Web Application
 
