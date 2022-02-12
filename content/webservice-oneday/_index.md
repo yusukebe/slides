@@ -35,8 +35,6 @@ by [Yusuke Wada a.k.a yusukebe](http://yusukebe.com/)
 
 ### オモロキ
 
-![オモロキ](images/omoroki.jpg)
-
 ---
 
 ### メインワークその1
