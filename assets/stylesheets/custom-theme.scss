@@ -1,0 +1,62 @@
+@import "../reveal-js/css/theme/template/mixins.scss";
+@import "../reveal-js/css/theme/template/settings.scss";
+
+$mainColor: #fff;
+$headingColor: #fff;
+$backgroundColor: #191919;
+
+$mainFontSize: 36px;
+$mainFont: "Helvetica Neue", "Helvetica", "Hiragino Sans",
+  "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+$headingFont: "Helvetica Neue", "Helvetica", "Hiragino Sans",
+  "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingFontWeight: 600;
+$linkColor: #42affa;
+$linkColorHover: lighten($linkColor, 15%);
+$selectionBackgroundColor: lighten($linkColor, 25%);
+
+$heading1Size: 2em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1em;
+
+@import "../reveal-js/css/theme/template/theme";
+
+.reveal pre code {
+  padding: 20px;
+  line-height: 1.5;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.reveal img,
+.reveal video,
+.reveal iframe {
+  max-height: 80vh;
+}
+
+.reveal p {
+  line-height: 1.5;
+}
+
+.reveal blockquote {
+  padding: 1rem 2rem;
+  font-size: 90%;
+}
+
+.reveal ul li {
+  margin-bottom: 0.5rem;
+}
+
+.reveal {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 30px;
+  }
+}

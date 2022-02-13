@@ -1,8 +1,8 @@
----
-title: 'revealgo'
-outputs: 'Reveal'
-draft: false
----
++++
+title = 'revealgo'
+outputs = 'Reveal'
+draft = false
++++
 
 # `revealgo`
 

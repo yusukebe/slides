@@ -178,33 +178,35 @@ by [Yusuke Wada a.k.a yusukebe](http://yusukebe.com/)
 
 ### twitter_search.pl
 
-	use Net::Twitter::Lite::WithAPIv1_1;
-	use Config::Pit;
-	use Encode;
-	use utf8;
+```perl
+use Net::Twitter::Lite::WithAPIv1_1;
+use Config::Pit;
+use Encode;
+use utf8;
 
-	binmode STDOUT, ':utf8';
+binmode STDOUT, ':utf8';
 
-	my $config = pit_get('twitter-api');
-	my $nt	 = Net::Twitter::Lite::WithAPIv1_1->new(
-		consumer_key		=> $config->{consumer_key},
-		consumer_secret	 => $config->{consumer_secret},
-		access_token		=> $config->{token},
-		access_token_secret => $config->{token_secret}
-	);
-	my $result = $nt->search(
-		{
-			q				=> 'おはよう',
-			include_entities => 1,
-			result_type	  => 'recent',
-			count			=> 100
-		}
-	);
-
-	for my $tweet ( @{ $result->{statuses} } ) {
-		print "$tweet->{text}\n";
-		print "----------------------------------------\n";
+my $config = pit_get('twitter-api');
+my $nt	 = Net::Twitter::Lite::WithAPIv1_1->new(
+	consumer_key		=> $config->{consumer_key},
+	consumer_secret	 => $config->{consumer_secret},
+	access_token		=> $config->{token},
+	access_token_secret => $config->{token_secret}
+);
+my $result = $nt->search(
+	{
+		q				=> 'おはよう',
+		include_entities => 1,
+		result_type	  => 'recent',
+		count			=> 100
 	}
+);
+
+for my $tweet ( @{ $result->{statuses} } ) {
+	print "$tweet->{text}\n";
+	print "----------------------------------------\n";
+}
+```
 
 ---
 
@@ -325,6 +327,8 @@ by [Yusuke Wada a.k.a yusukebe](http://yusukebe.com/)
 
 ![台風](images/typhoon.jpg)
 
+---
+
 - スキルリスク
 - 技術リスク
 - 政治リスク
@@ -423,11 +427,13 @@ CPANライブラリのエコシステム
 
 ### telnetでGET
 
-	$ telnet yusukebe.com 80
+```sh
+$ telnet yusukebe.com 80
 
-	GET / HTTP/1.1
-	Host: yusukebe.com
-	
+GET / HTTP/1.1
+Host: yusukebe.com
+```
+
 ---
 
 ### Webページを構成する要素
@@ -443,7 +449,9 @@ CPANライブラリのエコシステム
 
 ある程度構造化したテキストをマークアップで書ける
 
-	<h2 class="title">タイトル</h2>
+```html
+<h2 class="title">タイトル</h2>
+```
 
 ---
 
@@ -451,7 +459,9 @@ CPANライブラリのエコシステム
 
 CSSセレクタを利用しHTMLを装飾する
 
-	h2.title { color:#333; }
+```css
+h2.title { color:#333; }
+```
 
 ---
 
@@ -459,7 +469,9 @@ CSSセレクタを利用しHTMLを装飾する
 
 ページ自体をブラウザ側で操作し動きを与える
 
-	$('h2.title').fadeOut();
+```js
+$('h2.title').fadeOut();
+```
 
 ---
 
@@ -627,16 +639,18 @@ CSSセレクタを利用しHTMLを装飾する
 
 ### WebServiceOneDay.pm
 
-	package WebServiceOneDay;
-	use strict;
-	use warnings;
-	use Text::Markdown qw/markdown/;
-	use Path::Class qw/file/;
-	use Encode qw/decode_utf8/;
-	use Data::Section::Simple qw/get_data_section/;
-	use Text::MicroTemplate qw/render_mt/;
+```perl
+package WebServiceOneDay;
+use strict;
+use warnings;
+use Text::Markdown qw/markdown/;
+use Path::Class qw/file/;
+use Encode qw/decode_utf8/;
+use Data::Section::Simple qw/get_data_section/;
+use Text::MicroTemplate qw/render_mt/;
 
-	…;
+…;
+```
 
 ---
 
@@ -663,10 +677,13 @@ CSSセレクタを利用しHTMLを装飾する
 
 ### スケルトン
 
-	$ mojo generate app MyApp::Web
+```sh
+$ mojo generate app MyApp::Web
+```
 	
 すると… 
-	
+
+```sh
 	$ tree ./
 	
 	./
@@ -687,47 +704,54 @@ CSSセレクタを利用しHTMLを装飾する
 		│   └── welcome.html.ep
 		└── layouts
 			└── default.html.ep
+```
 
 ---
 
 ### ルーティング
 
-	package MyApp::Web;
-	use Mojo::Base 'Mojolicious';
+```perl
+package MyApp::Web;
+use Mojo::Base 'Mojolicious';
 
-	sub startup {
-		my $self = shift;
-		my $r = $self->routes;
-		$r->namespaces(['MyApp::Web::Controller']);
-		$r->get('/')->to('root#index');
-	}
+sub startup {
+	my $self = shift;
+	my $r = $self->routes;
+	$r->namespaces(['MyApp::Web::Controller']);
+	$r->get('/')->to('root#index');
+}
 
-	1;
+1;
+```
 
 ---
 
 ### コントローラ
 
-	package MyApp::Web::Controller::Root;
-	use Mojo::Base 'Mojolicious::Controller';
+```perl
+package MyApp::Web::Controller::Root;
+use Mojo::Base 'Mojolicious::Controller';
 
-	sub index {
-		my $self = shift;
-		my $message = "Hello, I'm from Yokohama!";
-		$self->stash->{message} = $message;
-		$self->render();
-	}
+sub index {
+	my $self = shift;
+	my $message = "Hello, I'm from Yokohama!";
+	$self->stash->{message} = $message;
+	$self->render();
+}
 
-	1;
+1;
+```
 
 ---
 
 ### テンプレート
 
-	% layout 'default';
-	% title 'Welcome';
+```html
+% layout 'default';
+% title 'Welcome';
 
-	<h2><%= $message %></h2>
+<h2><%= $message %></h2>
+```
 
 ---
 
@@ -753,31 +777,35 @@ CSSセレクタを利用しHTMLを装飾する
 
 ### テーブル構造
 
-	mysql> select * from entry;
-	+----+---------------+-----------+---------+---------------------+
-	| id | title		 | body	  | user_id | created_on		  |
-	+----+---------------+-----------+---------+---------------------+
-	|  1 | This is title | Body Text |	   1 | 2013-07-23 14:00:00 |
-	+----+---------------+-----------+---------+---------------------+
-	1 row in set (0.00 sec)
+```sh
+mysql> select * from entry;
++----+---------------+-----------+---------+---------------------+
+| id | title		 | body	  | user_id | created_on		  |
++----+---------------+-----------+---------+---------------------+
+|  1 | This is title | Body Text |	   1 | 2013-07-23 14:00:00 |
++----+---------------+-----------+---------+---------------------+
+1 row in set (0.00 sec)
+```
 
 ---
 
 ### SQL文
 
-	CREATE TABLE entry (
-		id INT UNSIGNED AUTO_INCREMENT,
-		title VARCHAR(255),
-		body TEXT NOT NULL,
-		user_id BIGINT UNSIGNED NOT NULL,
-		created_on DATETIME NOT NULL,
-		PRIMARY KEY (`id`)
-	) DEFAULT CHARACTER SET 'utf8' engine=InnoDB;
+```sql
+CREATE TABLE entry (
+	id INT UNSIGNED AUTO_INCREMENT,
+	title VARCHAR(255),
+	body TEXT NOT NULL,
+	user_id BIGINT UNSIGNED NOT NULL,
+	created_on DATETIME NOT NULL,
+	PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET 'utf8' engine=InnoDB;
 
-	INSERT INTO entry
-	(title, body, user_id, created_on)
-	VALUES
-	('This is title', 'Body Text', 1, '2013-07-23 14:00:00');
+INSERT INTO entry
+(title, body, user_id, created_on)
+VALUES
+('This is title', 'Body Text', 1, '2013-07-23 14:00:00');
+```
 
 ---
 
@@ -792,13 +820,15 @@ CSSセレクタを利用しHTMLを装飾する
 
 ### 疑似コード
 
-	$db->insert( 'entry',
+```perl
+$db->insert( 'entry',
 		{ title => 'This is title', body => 'Body text' } );
-	my $entry = $db->single( 'entry', { id => 1 } );
-	say $entry->title; # This is title
-	$entry->update({ title => 'Another title' });
-	say $entry->title; # Another title
-	$entry->delete();
+my $entry = $db->single( 'entry', { id => 1 } );
+say $entry->title; # This is title
+$entry->update({ title => 'Another title' });
+say $entry->title; # Another title
+$entry->delete();
+```
 
 ---
 
@@ -812,14 +842,16 @@ CSSセレクタを利用しHTMLを装飾する
 
 ### コントローラにて
 
-	sub index {
-		my $self = shift;
-		my $entries = $self->model('Entry')->get_recent_entries({}, {
-			order_by => 'id DESC', page => 1
-		});
-		$self->stash->{entries} = $entries;
-		$self->render('index');
-	}
+```perl
+sub index {
+	my $self = shift;
+	my $entries = $self->model('Entry')->get_recent_entries({}, {
+		order_by => 'id DESC', page => 1
+	});
+	$self->stash->{entries} = $entries;
+	$self->render('index');
+}
+```
 
 ---
 
@@ -856,7 +888,9 @@ CSSセレクタを利用しHTMLを装飾する
 
 TAP
 
-	ok $model->get_entry({ id => 1 });
+```perl
+ok $model->get_entry({ id => 1 });
+```
 
 ---
 
