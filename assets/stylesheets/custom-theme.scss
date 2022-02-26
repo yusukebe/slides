@@ -29,6 +29,7 @@ $heading4Size: 1em;
   padding: 20px;
   line-height: 1.5;
   font-family: Consolas, Monaco, monospace;
+  font-size: 1.1rem;
 }
 
 .reveal img,
@@ -43,10 +44,12 @@ $heading4Size: 1em;
 
 .reveal blockquote {
   padding: 1rem 2rem;
-  font-size: 90%;
+  font-size: 1.3rem;
 }
 
-.reveal ul li {
+.reveal ul li,
+.reveal ol li {
+  font-size: 1.8rem;
   margin-bottom: 0.5rem;
 }
 
