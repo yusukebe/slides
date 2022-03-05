@@ -1,9 +1,9 @@
 ---
 title: "Hono[炎] Ultrafast web framework for Cloudflare Workers."
-date: 2022-02-15T10:25:03+09:00
+date: 2022-03-05T13:24:53+09:00
 outputs: 'Reveal'
 description: "YAPC::Japan::Online 2022"
-draft: true
+draft: false
 ---
 
 # Hono\[炎\] Ultrafast web framework for Cloudflare Workers.
