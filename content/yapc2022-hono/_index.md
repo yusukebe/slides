@@ -13,18 +13,21 @@ YAPC::Japan::Online 2022
 
 ---
 
-## Talk about:
+## 今日話すこと
 
 1. Cloudflare Workers
-2. Hono
+2. Honoの特徴
+3. HonoのAPI
+4. Honoを使う
+5. おまけ「Service Worker Magic」
 
 ---
 
-## Introduction
+# はじめに
 
 ---
 
-### `Initial commit`
+### `Initial commit`は2.5ヶ月前
 
 2021-12-15
 
@@ -32,21 +35,9 @@ YAPC::Japan::Online 2022
 
 ---
 
-### Current version
+### 現在のVersion
 
-`v0.5.0`
-
----
-
-### TODO
-
-![todo](todo01.png)
-
----
-
-### TODO 2
-
-![todo](todo02.png)
+`v0.5.1`
 
 ---
 
@@ -56,7 +47,11 @@ YAPC::Japan::Online 2022
 
 ---
 
-## Cloudflare Workers
+楽しい
+
+---
+
+# Cloudflare Workersについて
 
 ---
 
@@ -72,6 +67,8 @@ Cloudflareの**CDNエッジ**で実行される**サーバーレス**環境
 
 ---
 
+### その他のキーワード
+
 * Workers KV
 * Workers Durable Objects
 * Workers Sites
@@ -80,7 +77,7 @@ Cloudflareの**CDNエッジ**で実行される**サーバーレス**環境
 
 ---
 
-## Use-case
+## ユースケース
 
 ---
 
@@ -126,6 +123,8 @@ const karma = async (name: string, operation: string) => {
 
 ### 3.ブックマークアプリ
 
+<https://github.com/yusukebe/marks>
+
 ![SS](ss01.png)
 
 ---
@@ -134,12 +133,14 @@ const karma = async (name: string, operation: string) => {
 
 ---
 
+### 特徴というか制限
+
 * Node.jsではない
 * APIが限られている
 
 ---
 
-## Service Worker API
+## Service Workerで書く
 
 ```js
 const handleRequest = async (request) => {
@@ -152,7 +153,7 @@ addEventListener("fetch", event => {
 
 ---
 
-## API
+## つかえるAPI
 
 * Encoding
 * Fetch / FetchEvent
@@ -164,38 +165,6 @@ addEventListener("fetch", event => {
 * Web standards
 * WebSockets
 * Cache / KV / Durable Objects
-
----
-
-## Perlでも書ける
-
-`Perlito`
-
-```perl
-JS::inline('addEventListener("fetch", event => { p5cget("main", "listener")([event]) })');
-```
-
----
-
-```perl
-sub handleRequest {
-    my ($req) = @_;
-
-    # URL is JavaScript Object
-    my $url = URL->new($req->url);
-    my $query_string = $url->search;
-
-    # Headers is JavaScript Object
-    my $headers = Headers->new();
-    $headers->append($key, $v);
-
-    # Response is JavaScript Object
-    my $res = Response->new(
-        $msg, { status  => 200, headers => $headers }
-    );
-    return $res;
-}
-```
 
 ---
 
@@ -211,35 +180,53 @@ Fastly Compute@Edgeでも同じコードが動くことがある
 
 ---
 
-## miniflare
-
-* Yet Anotherな実装
-* Wrangler@2.0の内部で使われている
+## ちなみにPerlで書ける
 
 ---
 
-## Hono\[炎\]
+### Perlito
 
-Ultrafast web framework for Cloudflare Workers.
-
----
-
-```js
-import { Hono } from 'hono'
-const app = new Hono()
-
-app.get('/', (c) => c.text('Hono!!'))
-
-app.fire()
+```perl
+JS::inline('addEventListener("fetch", event => { p5cget("main", "listener")([event]) })');
 ```
 
 ---
 
-## Hono in 1 minute
+```perl
+my $url = URL->new($req->url);
+my $query_string = $url->search;
+...
+my $headers = Headers->new();
+...
+return Response->new(
+  $msg,
+    {
+      status  => 200,
+      headers => $headers
+    }
+);
+```
+
+---
+
+
+これPerlです
+
+<https://yusukebe.com/posts/2021/psgi-cloudflare-workers/>
+
+---
+
+# Honoについて
+
+---
+
+## 1分で分かるHono
 
 ![Hono](hono.gif)
 
 ---
+
+### ４ステップで開発〜デプロイ
 
 
 ```sh
@@ -253,13 +240,19 @@ $ wrangler publish
 
 ---
 
+# Honoの特徴
+
+---
+
 ### モチベーション
 
 「Webサイトを作ろうとしていたら、フレームワークを作っていた」
 
 ---
 
-### 他にも
+### 他にも...
+
+Cloudflare向けのルーター・フレームワーク
 
 * itty-router
 * Sunder
@@ -267,11 +260,11 @@ $ wrangler publish
 
 ---
 
-### アイデンティティを探す旅へ
+### アイデンティティを探す
 
 ---
 
-## Features
+### 「Features」
 
 ---
 
@@ -286,14 +279,16 @@ $ wrangler publish
 
 ---
 
+## ベンチマーク
+
+---
+
 ### TrieRouter
 
 ---
 
-### ベンチマーク
-
 ```plain
-hono x 779,197 ops/sec ±6.55% (78 runs sampled)
+hono x 779,197 ops/sec ±6.55% (78 runs sampled) <---
 itty-router x 161,813 ops/sec ±3.87% (87 runs sampled)
 sunder x 334,096 ops/sec ±1.33% (93 runs sampled)
 worktop x 212,661 ops/sec ±4.40% (81 runs sampled)
@@ -312,7 +307,7 @@ Fastest is hono
 
 ```plain
 hono x 723,504 ops/sec ±6.76% (63 runs sampled)
-hono with RegExpRouter x 934,401 ops/sec ±5.49% (68 runs sampled)
+hono with RegExpRouter x 934,401 ops/sec ±5.49% (68 runs sampled) <---
 itty-router x 160,676 ops/sec ±3.23% (88 runs sampled)
 sunder x 312,128 ops/sec ±4.55% (85 runs sampled)
 worktop x 209,345 ops/sec ±4.52% (78 runs sampled)
@@ -325,23 +320,23 @@ Fastest is hono with RegExpRouter
 
 ---
 
-Compared to other `node.js` routers
+他の`node.js`ルーターと比べても...
 
 ---
 
-* find-my-way => Framework independent ✓
-* trek-router => Regex ✗ Multi-parametric route ✗
-* hono RegExpRouter => Regex ✓ Multi-parametric route ✓
+* find-my-way => Frameworkとしての機能を持っている
+* trek-router => ルーター、RegexとMulti paramに対応しない
+* hono RegExpRouter => ルーター、RegexとMulti paramに対応
 
 ```plain
 find-my-way benchmark x all together: 1,059,323 ops/sec
 trek-router benchmark x all together: 1,439,378 ops/sec
-hono RegExpRouter benchmark x all together: 1,426,009 ops/sec
+hono RegExpRouter benchmark x all together: 1,426,009 ops/sec <---
 ```
 
 ---
 
-## Why so fast?
+## なぜそんなに速いのか？ 
 
 ---
 
@@ -355,7 +350,7 @@ Inspired by **goblin**.
 
 ---
 
-Trie Tree
+トライ木
 
 ```js
 class Node<T> {
@@ -375,7 +370,7 @@ Inspired by **Router::Boom**.
 
 ---
 
-All the routes into one RegExp object.
+全てのルートをひとつの大きな正規表現にする
 
 * /help
 * /:user_id/followees
@@ -390,11 +385,138 @@ All the routes into one RegExp object.
 
 ---
 
-Hono is Fast.
+だからHonoは速い
 
 ---
 
-## API
+## その他の特徴
+
+---
+
+## Request/Responseの扱い
+
+---
+
+### Perlの場合
+
+例えば`Plack`を使う
+
+```perl
+use Plack::Request;
+ 
+my $app = sub {
+    my $env = shift;
+    my $req = Plack::Request->new($env);
+ 
+    my $path_info = $req->path_info;
+    my $query     = $req->parameters->{query};
+ 
+    my $res = $req->new_response(200);
+    $res->finalize;
+};
+```
+
+---
+
+### Cloudflare Workersの場合
+
+そもそもRequest/Responseオブジェクトが提供されている
+
+```js
+
+const handleRequest = (req: Request) => {
+  const ua = req.headers.get('User-Agent')
+  new res = new Response(`You are ${ua}`, {
+    headers: {
+      'X-Message': 'Hello YAPC!',
+    }
+  })
+  return res
+}
+```
+
+---
+
+### Contextがショートカットを提供する
+
+* `c.req.header(name)`
+* `c.header(name, value)`
+* `c.json(object)`
+
+```js
+app.get('/hello', (c) => {
+  const ua = c.req.header('User-Agent')
+  c.header('X-Message', 'Hello YAPC!')
+  return c.json({ 'You are ': ua })
+})
+```
+
+---
+
+## Middleware
+
+---
+
+### Inspired by `koa`
+
+> Everything is middleware
+> \- "Koa"
+
+
+---
+
+### Middlewareを書く
+
+```js
+app.use('*', async (c, next) => {
+  const start = Date.now()
+  // ^--- handle request
+  await next() // <--- dispatch handler
+  // v--- handle response
+  const ms = Date.now() - start
+  c.header('X-Response-Time', `${ms}ms`)
+})
+
+// a handler
+app.get('/hello', (c) => c.text('Hello YAPC!'))
+```
+
+---
+
+HandlerをMiddlewareが包む
+
+---
+
+```js
+app.use('*', async (c, next) => {
+  console.log('Foo - before')
+  await next()
+  console.log('Foo - after')
+})
+
+app.use('*', async (c, next) => {
+  console.log('Bar - before')
+  await next()
+  console.log('Bar - after')
+})
+```
+
+---
+
+```js
+app.get('/hello', (c) => {
+  console.log('Handler')
+  return c.text('Hello YAPC!')
+})
+```
+
+---
+
+![SS](ss04.png)
+
+---
+
+# HonoのAPI
 
 ---
 
@@ -529,6 +651,7 @@ app.use('/auth/*', basicAuth({ username: 'hono', password: 'acoolproject' }))
 * body-parse
 * cookie
 * cors
+* etag
 * logger
 * mustache
 * powered-by
@@ -555,11 +678,7 @@ app.get('/message/hello', (c) => c.text('Hello Middleware!'))
 ```
 ---
 
-## Error
-
----
-
-### Not Found
+## Not Found
 
 ```js
 app.notFound((c) => {
@@ -569,7 +688,7 @@ app.notFound((c) => {
 
 ---
 
-### Error Handling
+## Error Handling
 
 ```js
 app.onError((err, c) => {
@@ -587,25 +706,16 @@ app.onError((err, c) => {
 ### c.req
 
 ```js
-// Get Request object
-app.get('/hello', (c) => {
-  const userAgent = c.req.headers.get('User-Agent')
-  ...
-})
-
-// Shortcut to get a header value
 app.get('/shortcut', (c) => {
   const userAgent = c.req.header('User-Agent')
   ...
 })
 
-// Query params
 app.get('/search', (c) => {
   const query = c.req.query('q')
   ...
 })
 
-// Captured params
 app.get('/entry/:id', (c) => {
   const id = c.req.param('id')
   ...
@@ -628,7 +738,7 @@ app.get('/welcome', (c) => {
 
 ---
 
-Same as:
+以下と同じ
 
 ```js
 return new Response('Thank you for comming', {
@@ -760,7 +870,7 @@ export default app
 
 ---
 
-## use Hono
+# `use Hono`
 
 ---
 
@@ -789,7 +899,7 @@ wrangler generate my-app https://github.com/yusukebe/hono-minimal
 
 ```js
   "dependencies": {
-    "hono": "^0.4.1"
+    "hono": "^0.5.1"
   },
   "devDependencies": {
     "esbuild": "^0.14.23",
@@ -890,7 +1000,7 @@ app.fire()
 `react`ブランチ
 
 * Honoを使っている
-* ReactRSSしている（クライアントは何もしてない）
+* ReactSSRしている（クライアントは何もしてない）
 * microCMSでコンテンツを管理
 * APIレスポンスはKVでキャッシュ
 * Webhookを受け取って、キャッシュをパージ
@@ -898,7 +1008,7 @@ app.fire()
 
 ---
 
-CDNエッジでもMVCがかける
+CDNエッジでも「ちゃんとした」Webがつくれる
 
 ---
 
@@ -906,7 +1016,7 @@ CDNエッジでもMVCがかける
 
 ---
 
-## Service Worker Magic
+# Service Worker Magic
 
 ---
 
@@ -935,4 +1045,4 @@ CDNエッジでもMVCがかける
 
 ---
 
-The End
+おしまい

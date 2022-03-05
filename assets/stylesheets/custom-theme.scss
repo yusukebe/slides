@@ -25,11 +25,14 @@ $heading4Size: 1em;
 
 @import "../reveal-js/css/theme/template/theme";
 
-.reveal pre code {
+.reveal code {
+  font-family: Consolas, Monaco, monospace;
+}
+
+.reveal pre {
   padding: 20px;
   line-height: 1.5;
-  font-family: Consolas, Monaco, monospace;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .reveal img,
