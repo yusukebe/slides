@@ -304,16 +304,6 @@ $ wrangler publish
 
 ---
 
-# Ultrafast
-
----
-
-Because we are japanese !!!!
-
-![SS](ss05.png)
-
----
-
 ## ベンチマーク
 
 ---
