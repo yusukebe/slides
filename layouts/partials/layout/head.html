@@ -13,3 +13,48 @@ end }}
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 />
 <link rel="canonical" href="{{ .Permalink }}" />
+
+<meta
+  property="og:title"
+  content="{{ if not .IsHome }}{{ .Title }} &ndash; {{ end }}{{ .Site.Title }}"
+/>
+<meta
+  property="og:description"
+  content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}"
+/>
+<meta
+  property="og:type"
+  content="{{ if .IsPage }}article{{ else }}website{{ end }}"
+/>
+<meta property="og:url" content="{{ .Permalink }}" />
+
+{{- with $.Params.images -}} {{- range first 6 . }}
+<meta property="og:image" content="{{ . | absURL }}" />
+{{ end -}} {{- else -}} {{- $images := $.Resources.ByType "image" -}} {{-
+$featured := $images.GetMatch "*feature*" -}} {{- if not $featured }}{{
+$featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}} {{- with
+$featured -}}
+<meta property="og:image" content="{{ $featured.Permalink }}" />
+{{- else -}} {{- with $.Site.Params.images }}<meta
+  property="og:image"
+  content="{{ index . 0 | absURL }}"
+/>{{ end -}} {{- end -}} {{- end -}} {{- if .IsPage }} {{- $iso8601 :=
+"2006-01-02T15:04:05-07:00" -}}
+
+<meta property="article:section" content="{{ .Section }}" />
+{{ with .PublishDate }}<meta property="article:published_time" {{ .Format
+$iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }} {{ with .Lastmod
+}}<meta property="article:modified_time" {{ .Format $iso8601 | printf
+"content=%q" | safeHTMLAttr }} />{{ end }} {{- end -}} {{- with .Site.Title
+}}<meta property="og:site_name" content="{{ . }}" />{{ end -}}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:domain" content="yusukebe.github.com" />
+<meta
+  name="twitter:title"
+  content="{{ if not .IsHome }}{{ .Title }} &ndash; {{ end }}{{ .Site.Title }}"
+/>
+<meta
+  name="twitter:description"
+  content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}"
+/>
