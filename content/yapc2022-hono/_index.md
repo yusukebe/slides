@@ -144,6 +144,7 @@ const karma = async (name: string, operation: string) => {
 
 ### 特徴というか制限
 
+* JavaScript (Rustもサポート)
 * Node.jsではない
 * APIが限られている
 
@@ -297,6 +298,7 @@ $ wrangler publish
 * Zero dependencies
 * Middleware
 * Optimized
+* (TypeScript)
 
 ---
 
