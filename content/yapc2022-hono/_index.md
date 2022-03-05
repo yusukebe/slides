@@ -2,6 +2,7 @@
 title: "Hono[炎] Ultrafast web framework for Cloudflare Workers."
 date: 2022-02-15T10:25:03+09:00
 outputs: 'Reveal'
+description: "YAPC::Japan::Online 2022"
 draft: true
 ---
 
@@ -9,7 +10,7 @@ draft: true
 
 Yusuke Wada
 
-YAPC::Japan::Online 2022
+2022-03-05 YAPC::Japan::Online 2022
 
 ---
 
@@ -19,7 +20,7 @@ YAPC::Japan::Online 2022
 2. Honoの特徴
 3. HonoのAPI
 4. Honoを使う
-5. おまけ「Service Worker Magic」
+5. Service Worker Magic
 
 ---
 
@@ -47,7 +48,15 @@ YAPC::Japan::Online 2022
 
 ---
 
-楽しい
+![SS](ss07.png)
+
+---
+
+![SS](ss06.png)
+
+---
+
+作るの楽しい！！
 
 ---
 
@@ -142,6 +151,24 @@ const karma = async (name: string, operation: string) => {
 
 ## Service Workerで書く
 
+---
+
+### Service Workerとは？
+
+> Service Worker はブラウザが Web ページとは別にバックグラウンドで実行するスクリプトで、Web ページやユーザーのインタラクションを必要としない機能を Web にもたらします。
+> https://developers.google.com/web/fundamentals/primers/service-workers?hl=ja
+
+---
+
+* プッシュ通知
+* オフラインでも閲覧できる
+* バックグラウンドのデータ同期
+* キャッシュ
+
+---
+
+### `fetch`イベントを書く
+
 ```js
 const handleRequest = async (request) => {
   return new Response("Hello YAPC!")
@@ -210,7 +237,7 @@ return Response->new(
 ---
 
 
-これPerlです
+Cloudflare Workers🔥でもPerl🐫でも動くPerlを書く
 
 <https://yusukebe.com/posts/2021/psgi-cloudflare-workers/>
 
@@ -250,13 +277,11 @@ $ wrangler publish
 
 ---
 
-### 他にも...
+他にも...Cloudflare向けのルーター・フレームワーク
 
-Cloudflare向けのルーター・フレームワーク
-
-* itty-router
-* Sunder
-* worktop
+* itty-router - 37行
+* Sunder - 先発
+* worktop - Cloudflareの中の人が作ってる
 
 ---
 
@@ -276,6 +301,16 @@ Cloudflare向けのルーター・フレームワーク
 ---
 
 ## Ultrafast
+
+---
+
+# Ultrafast
+
+---
+
+Because we are japanese !!!!
+
+![SS](ss05.png)
 
 ---
 
@@ -324,15 +359,29 @@ Fastest is hono with RegExpRouter
 
 ---
 
-* find-my-way => Frameworkとしての機能を持っている
-* trek-router => ルーター、RegexとMulti paramに対応しない
-* hono RegExpRouter => ルーター、RegexとMulti paramに対応
+* 有名どころに圧勝
+
+```plain
+express benchmark (includes handling) x all together: 292,090 ops/sec
+koa-router benchmark x all together: 232,845 ops/sec
+hono RegExpRouter benchmark x all together: 1,426,009 ops/sec <---
+```
+
+---
+
+* `find-my-way`に勝った => Frameworkよりだから遅い
+* `trek-router`に負けた => RegexとMulti paramに対応しない
+* `hono RegExpRouter` => RegexとMulti paramに対応
 
 ```plain
 find-my-way benchmark x all together: 1,059,323 ops/sec
 trek-router benchmark x all together: 1,439,378 ops/sec
 hono RegExpRouter benchmark x all together: 1,426,009 ops/sec <---
 ```
+
+---
+
+ほぼ最強
 
 ---
 
@@ -415,6 +464,10 @@ my $app = sub {
     $res->finalize;
 };
 ```
+
+---
+
+Request/Responseオブジェクトつくりがち
 
 ---
 
@@ -647,15 +700,15 @@ app.use('/auth/*', basicAuth({ username: 'hono', password: 'acoolproject' }))
 
 ### Available builtin middleware
 
-* basic-auth
+* basic-auth <--- 1から作るとダルい
 * body-parse
 * cookie
 * cors
 * etag
 * logger
-* mustache
+* mustache <--- テンプレート
 * powered-by
-* serve-static
+* serve-static <--- KVを使う
 
 ---
 
@@ -980,9 +1033,7 @@ app.get('/', (c) => {
 app.get('/ie/:name', (c) => {
   const name = c.req.param('name')
   const ie = ies.find((i) => i.name === name)
-  if (!ie) {
-    return c.text('家系 is Not Found', 404)
-  }
+  if (!ie) return c.notFound()
   return c.render('ie', ie, partials)
 })
 ```
