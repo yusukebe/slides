@@ -21,7 +21,8 @@ Yusuke Wada
 
 テックブログやってます。
 
-TravelBook Tech Blog <https://tech.travelbook.co.jp/>
+TravelBook Tech Blog<br>
+<https://tech.travelbook.co.jp/>
 
 ---
 
@@ -35,9 +36,7 @@ TravelBook Tech Blog <https://tech.travelbook.co.jp/>
 
 ---
 
-## 連絡事項
-
-Compute@EdgeはJavaScriptによる実装を前提としています。
+今回、Compute@EdgeはJavaScriptによる実装を前提としています
 
 ---
 
@@ -96,7 +95,7 @@ https://developer.fastly.com/solutions/demos/doom/
 
 ---
 
-Fastly Compute@Edgeは「**CDNに強い**」のエッジファンクション
+Fastly Compute@Edgeは「**CDNに強い**」
 
 ---
 
@@ -111,15 +110,11 @@ Fastly vs Cloudflare
 
 CDNに強い？
 
----
-
-バックエンドを活かす
+=> バックエンドを活かす
 
 ---
 
-FastlyにはVCLがある。
-
----
+### FastlyにはVCLがある
 
 *Varnish Configuration Language* 
 
@@ -131,11 +126,11 @@ VCLでできることはCompute@Edgeでできるのではないか？
 
 ---
 
-# Code over Configuration
+> Code over Configuration
 
 ---
 
-Edge Functions – Vercel
+「Edge Functions – Vercel」のページより
 
 https://vercel.com/features/edge-functions
 
@@ -143,20 +138,24 @@ https://vercel.com/features/edge-functions
 
 ---
 
-### Convention over Configuration
+### ちなみに
 
-フレームワークやライブラリ側でベストプラクティスを用意しておくから、利用者はその慣例に従えばよい
+Convention over Configuration
+
+> フレームワークやライブラリ側でベストプラクティスを用意しておくから、利用者はその慣例に従えばよい
 モデルの中でBooksというクラスがあれば、テーブルはbooksである
 
 ---
 
-# Compute@EdgeはVCLに置き換わるのか
+## Compute@EdgeはVCLに置き換わるのか
 
 ---
 
 # 1. 機能
 
 ---
+
+### 「Migrate from VCL」というドキュメントがある
 
 Migrate from VCL | Fastly Developer Hub
 https://developer.fastly.com/learning/compute/migrate/
@@ -241,7 +240,7 @@ Controlling the cache
 
 ### alt svcヘッダの追加 `h3.alt_svc()`
 
-自分でヘッダに足す。
+自分でヘッダに足す
 
 ---
 
@@ -252,7 +251,7 @@ https://developer.fastly.com/reference/http/http-headers/X-Compress-Hint/
 
 ---
 
-## できないこと・できなそうなこと
+## (たぶん)できないこと
 
 ---
 
@@ -266,14 +265,13 @@ https://developer.fastly.com/reference/http/http-headers/X-Compress-Hint/
 
 ---
 
-* 環境変数が使えない => Edge Dictionaryでなんとかする。
+* 環境変数が使えない => Edge Dictionaryでなんとかする
 
-Fastly Compute@Edgeについて分かったこと – TravelBook Tech Blog<br>
-https://tech.travelbook.co.jp/posts/fastly-compute-at-edge/
+Fastly Compute@Edgeについて分かったこと – TravelBook Tech Blog<br> https://tech.travelbook.co.jp/posts/fastly-compute-at-edge/
 
 ---
 
-## ほぼ全ての機能をCompute@Edgeがカバー
+ほぼ全ての機能をCompute@Edgeがカバー
 
 ---
 
@@ -289,7 +287,7 @@ https://github.com/google/sxg-rs/tree/main/fastly_compute
 
 ### 要望
 
-* パスごとにVCL、Computeと分けたい
+* パスごとにVCL、Computeと分けたい <= 今だとプロジェクト単位
 
 ---
 
@@ -356,9 +354,9 @@ https://developer.mozilla.org/ja/docs/Web/API/Fetch_API
 ### 標準のAPIが使える
 
 ```js
-const path = new URL(req.url).pathname
-const ua = req.headers.get('User-Agent')
-res.headers.append('X-Debug', `${path} - ${ua}`)
+const path = new URL(req.url).pathname // Request, URL
+const ua = req.headers.get('User-Agent') // Headers
+res.headers.append('X-Debug', `${path} - ${ua}`) // Response
 ```
 
 ---
@@ -412,6 +410,8 @@ TypeScriptでも書ける
 * Sunder
 * worktop
 * Hono
+
+Service Worker互換なので「Cloudflare Workers向け」を謳っているものも使える
 
 ---
 
@@ -514,8 +514,7 @@ $ fastly compute deploy
 
 * 手元で動かせる
 * デプロイが早い・速い
-
-*＊ただしバックエンドをキャッシュできない*
+* *＊ただしバックエンドをキャッシュできない*
 
 ---
 
@@ -560,6 +559,16 @@ https://github.com/fastly/compute-actions
 
 Testing and debugging on Compute@Edge | Fastly Developer Hub<br>
 https://developer.fastly.com/learning/compute/testing/#constraints-and-limitations-1
+
+
+---
+
+## Codeだからこそ
+
+1. 「標準」を使える => Service Worker/TS
+2. 再利用性が高い => フレームワーク
+3. 仮想環境がある => Viceroy
+4. テストができる => jest/CI
 
 ---
 
@@ -658,6 +667,12 @@ https://github.com/jaygooby/ttfb.sh
 
 ---
 
+なんど計測しても順位は変わらず
+
+結構差がついた
+
+---
+
 ### 2. Compute@Edgeの実装別
 
 * Hono
@@ -674,13 +689,13 @@ https://github.com/kwhitley/itty-router
 
 ---
 
-### Hono => 2054 Reqs/sec - 1.95ms
+### Hono => 2054 Reqs/sec, 1.95ms
 
 ![Hono](hono.png)
 
 ---
 
-### itty-router => 1779 Reqs/sec - 2.25ms
+### itty-router => 1779 Reqs/sec, 2.25ms
 
 ![itty](itty.png)
 
@@ -693,14 +708,14 @@ Compute@Edge同士ならルーターで差が出る
 ## 性能まとめ
 
 * VCL速い
-* ComputeでもJSよりRustの方が速い
+* ComputeでもJSよりRustの方が速い(Wasmにした時の違い？)
 * JS同士ならルーターの性能差がでる
 
-=> **Compute JSが速くなってくれて、速いルーターを使えばよい**
+=> **Compute@Edgeが速くなって、Wasmにした時でもRustと同等になって、速いルーターを使えばよい**
 
 ---
 
-以上、Compute@Edgeについてみてきた
+以上、Compute@Edgeについて
 
 1. 機能
 2. 開発
@@ -743,3 +758,17 @@ Compute@Edge同士ならルーターで差が出る
 ---
 
 おしまい
+
+---
+
+トラベルブックではエンジニア募集中！
+
+Fastlyガンガン使ってます
+
+Compute@Edgeも導入するかもしれません！
+
+---
+
+TravelBook Tech Blog
+
+https://tech.travelbook.co.jp/
