@@ -118,7 +118,7 @@ CDNに強い？
 
 *Varnish Configuration Language* 
 
-あくまでVarnish（キャッシュサーバ）の設定言語
+あくまで**Varnish**（キャッシュサーバ）の**設定言語**
 
 ---
 
@@ -159,6 +159,17 @@ Convention over Configuration
 
 Migrate from VCL | Fastly Developer Hub
 https://developer.fastly.com/learning/compute/migrate/
+
+---
+
+### 「How we migrated developer.fastly.com from VCL to Compute@Edge」という記事もある
+
+How we migrated developer.fastly.com from VCL to Compute@Edge | Fastly<br >
+https://www.fastly.com/blog/how-we-migrated-developer-fastly-com-from-vcl-to-compute-edge
+
+---
+
+Compute@Edgeでできる機能
 
 ---
 
@@ -209,6 +220,8 @@ Controlling the cache
 
 ---
 
+トラベルブックがやってること
+
 * Edge Dictionary
 * UAによるステータスコードの変更
 * Basic認証
@@ -219,6 +232,8 @@ Controlling the cache
 * パスによるバックエンドの変更
 
 ---
+
+トラベルブックがやってること
 
 * キャッシュキーの作成（URL、デバイス、ホスト）
 * ステータスコードでキャッシュの有無
@@ -234,7 +249,7 @@ Controlling the cache
 
 ---
 
-## 工夫すればできるもの
+## 工夫が必要なもの
 
 ---
 
@@ -336,6 +351,8 @@ addEventListener("fetch", event => {
 
 ---
 
+Codeである意味
+
 ## 1. 標準であること
 
 ---
@@ -394,6 +411,8 @@ TypeScriptでも書ける
 例: webpack => esbuild
 
 ---
+
+Codeである意味
 
 ## 2. 再利用性
 
@@ -493,6 +512,8 @@ app.get('/backend', (c) => {
 
 ---
 
+Codeである意味
+
 ## 3. 仮想環境
 
 ---
@@ -514,9 +535,11 @@ $ fastly compute deploy
 
 * 手元で動かせる
 * デプロイが早い・速い
-* *＊ただしバックエンドをキャッシュできない*
+* *＊ただしバックエンドのキャッシュをエミュレートしない*
 
 ---
+
+Codeである意味
 
 ## 4. テスト
 
@@ -526,7 +549,7 @@ $ fastly compute deploy
 
 ---
 
-### jestによるテスト
+### Jestによるテスト
 
 ```js
 test('GET /', async () => {
@@ -553,13 +576,47 @@ https://github.com/fastly/compute-actions
 
 ---
 
-### 要望&やりたいこと
+## ただし
 
-キャッシュのテストがしたい
+バックエンドのユニットテストができない
 
-Testing and debugging on Compute@Edge | Fastly Developer Hub<br>
-https://developer.fastly.com/learning/compute/testing/#constraints-and-limitations-1
+Viceroyレベルでテストしなくてはいけない = E2Eっぽいテストになる
 
+---
+
+```js
+const url = new URL('http://127.0.0.1:7676/')
+
+test('GET "/"', async () => {
+  url.pathname = '/'
+  const res = await fetch(url.toString())
+  expect(res.status).toBe(200)
+})
+
+test('GET "/banana"', async () => {
+  url.pathname = '/banana'
+  const res = await fetch(url.toString())
+  expect(res.status).toBe(404)
+})
+```
+
+---
+
+### Cloudflare Wokersの場合
+
+Jest Environment · Miniflare
+https://miniflare.dev/testing/jest
+
+```js
+// jest.config.js
+export default {
+  testEnvironment: "miniflare",
+  testEnvironmentOptions: {
+    bindings: { KEY: "value" },
+    kvNamespaces: ["TEST_NAMESPACE"],
+  }
+}
+```
 
 ---
 
@@ -568,7 +625,7 @@ https://developer.fastly.com/learning/compute/testing/#constraints-and-limitatio
 1. 「標準」を使える => Service Worker/TS
 2. 再利用性が高い => フレームワーク
 3. 仮想環境がある => Viceroy
-4. テストができる => jest/CI
+4. テストができる => Jest/CI
 
 ---
 
@@ -588,6 +645,7 @@ https://developer.fastly.com/learning/compute/testing/#constraints-and-limitatio
 * VCL
 * Compute@Edge JavaScript
 * Compute@Edge Rust
+* ~~Compute@Edge AssemblyScript~~
 
 Synthetic Response
 
@@ -667,7 +725,7 @@ https://github.com/jaygooby/ttfb.sh
 
 ---
 
-なんど計測しても順位は変わらず
+何回計測しても順位は変わらず
 
 結構差がついた
 
@@ -707,7 +765,7 @@ Compute@Edge同士ならルーターで差が出る
 
 ## 性能まとめ
 
-* VCL速い
+* VCL速い(Wasm/Lucetとの差？)
 * ComputeでもJSよりRustの方が速い(Wasmにした時の違い？)
 * JS同士ならルーターの性能差がでる
 
@@ -747,7 +805,9 @@ Compute@Edge同士ならルーターで差が出る
 
 # まとめ
 
-「Compute@EdgeはVCLに置き換わるだろう」
+(パフォーマンスがVCLに近づけば)
+
+「Compute@EdgeはVCLに置き換わる」
 
 そして【VCL以上】の体験を手に入れる
 
