@@ -63,6 +63,8 @@ CDNのエッジで実行する系が面白い - ゆーすけべー日記
 
 JavaScriptにおいては、どちらもService Worker互換
 
+使ってみて
+
 ---
 
 ### Cloudflare Workers
@@ -114,7 +116,7 @@ CDNに強い？
 
 ---
 
-### FastlyにはVCLがある
+### ただし、FastlyにはVCLがある
 
 *Varnish Configuration Language* 
 
@@ -138,15 +140,6 @@ https://vercel.com/features/edge-functions
 
 ---
 
-### ちなみに
-
-Convention over Configuration
-
-> フレームワークやライブラリ側でベストプラクティスを用意しておくから、利用者はその慣例に従えばよい
-モデルの中でBooksというクラスがあれば、テーブルはbooksである
-
----
-
 ## Compute@EdgeはVCLに置き換わるのか
 
 ---
@@ -164,12 +157,14 @@ https://developer.fastly.com/learning/compute/migrate/
 
 ### 「How we migrated developer.fastly.com from VCL to Compute@Edge」という記事もある
 
+2022/03/16
+
 How we migrated developer.fastly.com from VCL to Compute@Edge | Fastly<br >
 https://www.fastly.com/blog/how-we-migrated-developer-fastly-com-from-vcl-to-compute-edge
 
 ---
 
-Compute@Edgeでできる機能
+Compute@Edgeでできること
 
 ---
 
@@ -220,7 +215,7 @@ Controlling the cache
 
 ---
 
-トラベルブックがやってること
+トラベルブックがやってること1
 
 * Edge Dictionary
 * UAによるステータスコードの変更
@@ -233,7 +228,7 @@ Controlling the cache
 
 ---
 
-トラベルブックがやってること
+トラベルブックがやってること2
 
 * キャッシュキーの作成（URL、デバイス、ホスト）
 * ステータスコードでキャッシュの有無
@@ -253,7 +248,7 @@ Controlling the cache
 
 ---
 
-### alt svcヘッダの追加 `h3.alt_svc()`
+### HTTP/3 - alt svcヘッダの追加 `h3.alt_svc()`
 
 自分でヘッダに足す
 
@@ -271,7 +266,7 @@ https://developer.fastly.com/reference/http/http-headers/X-Compress-Hint/
 ---
 
 * ACL `client.ip ~ ${ip_block_acl_name}`
-* `Fastly-Debug:1`が効かない => 自分でやれ？
+* `Fastly-Debug:1`ヘッダが効かない => 自分でやれ？
 * 実験的な機能、 `h2.early_hints`
 
 ---
@@ -280,7 +275,7 @@ https://developer.fastly.com/reference/http/http-headers/X-Compress-Hint/
 
 ---
 
-* 環境変数が使えない => Edge Dictionaryでなんとかする
+* 環境変数が使えない => Edge Dictionaryで変数を管理する
 
 Fastly Compute@Edgeについて分かったこと – TravelBook Tech Blog<br> https://tech.travelbook.co.jp/posts/fastly-compute-at-edge/
 
@@ -291,6 +286,8 @@ Fastly Compute@Edgeについて分かったこと – TravelBook Tech Blog<br> h
 ---
 
 ### 逆にCompute@Edgeだからできる機能
+
+例
 
 * ダイナミックに`Link`ヘッダをつける
 * Signed Exchange
@@ -310,7 +307,7 @@ https://github.com/google/sxg-rs/tree/main/fastly_compute
 
 ---
 
-### Synthetic Response
+> (あらためて)JavaScriptで書ける！！
 
 ---
 
@@ -335,10 +332,6 @@ addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request))
 })
 ```
-
----
-
-> これは紛れもなくJavaScriptである！！
 
 ---
 
@@ -397,18 +390,14 @@ https://js-compute-reference-docs.edgecompute.app/
 
 TypeScriptでも書ける
 
+TS => JS => Wasm
+
 ---
 
 ## 型がある
 
 ![SS](ss05.png)
 ![SS](ss06.png)
-
----
-
-### ビルドの方法も選べる
-
-例: webpack => esbuild
 
 ---
 
@@ -495,6 +484,19 @@ app.get('/auth/*', (c) => c.text('You are authorized!'))
 
 ---
 
+* basic-auth
+* body-parse
+* cookie
+* cors
+* etag
+* graphql-server
+* logger
+* mustache
+* powered-by
+* serve-static*
+
+---
+
 ### With Backend
 
 ```js
@@ -535,6 +537,7 @@ $ fastly compute deploy
 
 * 手元で動かせる
 * デプロイが早い・速い
+* Terraform => Fastly CLI
 * *＊ただしバックエンドのキャッシュをエミュレートしない*
 
 ---
@@ -583,6 +586,8 @@ https://github.com/fastly/compute-actions
 Viceroyレベルでテストしなくてはいけない = E2Eっぽいテストになる
 
 ---
+
+### 開発サーバーを立ち上げて`fetch`する
 
 ```js
 const url = new URL('http://127.0.0.1:7676/')
@@ -759,7 +764,7 @@ https://github.com/kwhitley/itty-router
 
 ---
 
-Compute@Edge同士ならルーターで差が出る
+Compute@Edge同士ならややルーターで差が出る
 
 ---
 
@@ -814,6 +819,9 @@ Compute@Edge同士ならルーターで差が出る
 ---
 
 正式リリースに期待！
+
+* Rust - Limited Availability
+* JavaScript - BETA
 
 ---
 
