@@ -1,8 +1,8 @@
 ---
 title: "Code over Configuration 〜 Compute@Edge は VCL に置き換わるのか"
-date: 2022-03-16T09:09:09+09:00
+date: 2022-03-29T19:06:19+09:00
 outputs: 'Reveal'
-draft: true
+draft: false
 ---
 
 # Code over Configuration 〜 Compute@Edge は VCL に置き換わるのか
