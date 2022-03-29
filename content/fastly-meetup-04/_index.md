@@ -38,6 +38,8 @@ TravelBook Tech Blog<br>
 
 今回、Compute@EdgeはJavaScriptによる実装を前提としています
 
+全て個人の見解です！(間違っているところあると思います)
+
 ---
 
 # イントロ
@@ -141,6 +143,10 @@ https://vercel.com/features/edge-functions
 ---
 
 ## Compute@EdgeはVCLに置き換わるのか
+
+1. 機能
+2. 開発
+3. 性能
 
 ---
 
@@ -291,6 +297,7 @@ Fastly Compute@Edgeについて分かったこと – TravelBook Tech Blog<br> h
 
 * ダイナミックに`Link`ヘッダをつける
 * Signed Exchange
+* FUJIMIさんの例 => Preview URLの発行
 
 sxg-rs/fastly_compute at main · google/sxg-rs
 https://github.com/google/sxg-rs/tree/main/fastly_compute
@@ -576,6 +583,8 @@ test('Access control for a Bot', async () => {
 
 fastly/compute-actions: GitHub Actions for building on Compute@Edge.<br>
 https://github.com/fastly/compute-actions
+
+*(日経新聞さんはVCLをCI/CDしている！)*
 
 ---
 
