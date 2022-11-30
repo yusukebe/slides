@@ -26,6 +26,37 @@ Today's topics
 
 ## Cloudflare Workers
 
+with D1 and Hono
+
+---
+
+### Cloudflare Workers
+
+* Works on the Edge
+* "Glue" for Supercloud
+* Small and Fast
+* Easy to deploy
+* Write in JavaScript
+
+---
+
+### Cloudflare D1
+
+* Serverless SQL database
+* SQLite is used inside
+* Integrated with Workers
+* Open alpha
+
+---
+
+### Hono
+
+* Created by me:)
+* Fast web framework
+* Works on Cloudflare Workers, Deno, Bun, and Node.js
+* Using Web Standard API
+* Express.js like syntax
+
 ---
 
 ## Live-coding
