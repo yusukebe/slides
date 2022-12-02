@@ -338,19 +338,6 @@ app.get('/', (c) => {
 
 ---
 
-`package.json`
-
-```json
-{
-  "scripts": {
-    "dev": "wrangler dev src/index.tsx",
-    "deploy": "wrangler publish src/index.tsx"
-  }
-}
-```
-
----
-
 ```plain
 yarn dev
 yarn deploy
