@@ -52,6 +52,8 @@ with D1 and Hono
 ### Hono
 
 * Created by me:)
+* https://honojs.dev
+* https://github.com/honojs/hono
 * Fast web framework
 * Works on Cloudflare Workers, Deno, Bun, and Node.js
 * Using Web Standard API
@@ -100,7 +102,8 @@ yarn add hono
 ```json
 "scripts": {
   "dev": "wrangler dev src/index.tsx",
-  "deploy": "wrangler publish src/index.tsx"
+  "deploy": "wrangler publish src/index.tsx",
+  "test": "jest"
 }
 ```
 
@@ -115,6 +118,7 @@ yarn add hono
       "ESNext"
     ],
     "types": [
+      "jest",
       "@cloudflare/workers-types"
     ],
     "jsx": "react",
@@ -122,7 +126,8 @@ yarn add hono
     "jsxFragmentFactory": "Fragment"
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*"
   ]
 }
 ```
@@ -445,11 +450,55 @@ yarn deploy
 
 ---
 
-## 6. Wrap up
+## 6. Tests
+
+---
+
+```plain
+yarn add -D jest jest-environment-miniflare @types/jest esbuild-jest
+```
+
+---
+
+`jest.config.js`
+
+```js
+module.exports = {
+  testEnvironment: 'miniflare',
+  testMatch: ['**/tests/**/*.+(ts|tsx)'],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'esbuild-jest',
+  },
+}
+```
+
+---
+
+`tests/index.ts`
+
+```ts
+import app from '../src/index'
+
+describe('Test endpoints', () => {
+  it('Should return 200 Response', async () => {
+    const res = await app.request('http://localhost/hello')
+    expect(res.status).toBe(200)
+    expect(await res.text()).toBe('Hello!')
+  })
+})
+```
+
+---
+
+## 7. Wrap up
 
 * Your First Worker
 * Using Hono
 * Blog Part1
 * Using D1
 * Blog Part2
+* Tests
 
+---
+
+## Try Cloudflare Workers
