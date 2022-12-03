@@ -433,7 +433,6 @@ const posts = results
 ```ts
 await c.env.DB.prepare(`INSERT INTO post(title, body) VALUES(?, ?);`)
   .bind(title, body)
-  .bind(title, body)
   .run()
 ```
 
