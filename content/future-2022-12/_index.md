@@ -37,14 +37,14 @@ res.headers.append('x-custom', 'This is message')
 
 ---
 
-## Five things to make it possible
+## We have to do four things
 
 ---
 
-1. Ecosystem
-2. Documents
-3. "Edgy" and "General"
-4. For "Frontend" and "Client"
+1. Making the ecosystem
+2. Write documents
+3. Think about "Edgy" and "General"
+4. Make it for "Frontend" and "Client"
 
 ---
 
@@ -104,7 +104,7 @@ Hono is "edgy"
   * Trie-Router/RegExpRouter/StaticRouter/SmartRouter
 * Optimized for speed
 * Little bit fat
-  * Although my core is only 35kB!
+  * Although the core is only 35kB!
 * Making "Validator" that is magical
 
 ---
