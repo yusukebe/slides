@@ -1,0 +1,94 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>Cloudflare Pages Step by Step</title><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="black-translucent"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><link rel=canonical href=https://yusukebe.github.io/slides/cloudflare-pages-step-by-step/><meta property="og:title" content="Cloudflare Pages Step by Step &ndash; yusukebe/slides"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://yusukebe.github.io/slides/cloudflare-pages-step-by-step/"><meta property="og:site_name" content="yusukebe/slides"><meta name=twitter:card content="summary_large_image"><meta name=twitter:domain content="yusukebe.github.com"><meta name=twitter:title content="Cloudflare Pages Step by Step &ndash; yusukebe/slides"><meta name=twitter:description content><link rel=stylesheet href=/slides/reveal-js/css/reset.css><link rel=stylesheet href=/slides/reveal-js/css/reveal.css><link rel=stylesheet href=/slides/_.min.8b7d4ab64c350b0146b4922e555484af3453e7c2e0daf4e8b410d35f43bbbe2a.css id=theme><link rel=stylesheet href=/slides/highlight-js/default.min.css></head><body><div class=reveal><div class=slides><section><h1 id=cloudflare-pages-step-by-step>Cloudflare Pages Step by Step</h1><ul><li>Yusuke Wada <a href=https://github.com/yusukebe>https://github.com/yusukebe</a></li><li>2023-03-01 <a href=https://serverless.connpass.com/event/274263/>Serverless Meetup Japan Virtual #26</a></li></ul></section><section><h2 id=me>Me:)</h2><ul><li>Yusuke Wada</li><li><a href=https://github.com/yusukebe>https://github.com/yusukebe</a></li><li><a href=https://twitter.com/yusukebe>https://twitter.com/yusukebe</a></li><li>Creator of <a href=https://hono.dev/>Hono</a></li></ul></section><section><h2 id=agenda>Agenda</h2></section><section><p>Creating a full-stack application on Cloudflare Pages</p><p>&ldquo;<strong>Step-by-Step</strong>&rdquo;</p></section><section><p><a href=https://github.com/yusukebe/cloudflare-pages-step-by-step>github.com/yusukebe/cloudflare-pages-step-by-step</a></p></section><section><h2 id=toc>TOC</h2><ul><li>01 Basic</li><li>02 Vite</li><li>03 React</li><li>04 Functions</li><li>05 Hono</li><li>06 D1</li><li>07 RPC</li><li>08 Testing</li></ul></section><section><h2 id=what-is-a-cloudflare-pages>What is a Cloudflare Pages</h2></section><section><blockquote><p>Cloudflare Pages is a JAMstack platform for frontend developers to collaborate and deploy websites.</p><p><a href=https://pages.cloudflare.com>https://pages.cloudflare.com</a></p></blockquote></section><section><blockquote><ul><li><strong>Developer-focused</strong> with effortless Git integration.</li><li><strong>Advanced collaboration</strong> built-in with unlimited seats.</li><li><strong>Unmatched performance</strong> on Cloudflare’s edge network.</li><li><strong>Dynamic functionality</strong> through integration with Cloudflare Workers.</li></ul><p><a href=https://pages.cloudflare.com>https://pages.cloudflare.com</a></p></blockquote></section><section><h2 id=the-frameworks>The frameworks</h2></section><section><ul><li>Gatsby</li><li>Jekyll</li><li>Next.js</li><li>Nuxt.js</li><li>Preact</li><li>Qwik</li><li>Svelte</li><li>&mldr;</li></ul></section><section><p>Also Hono!</p><p><img src=https://ss.yusukebe.com/7eeac7060096d3f7ed6bbc4391d1374e0335fa6c365c895e71e4d9bf51621567.png alt=SS></p></section><section><p>Three ways to set up a Pages project:</p><ol><li>Git</li><li>Direct Uploads</li><li>Wrangler</li></ol></section><section><h2 id=develop-with-wrangler>Develop with Wrangler</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>wrangler pages dev &lt;directory | command&gt;
+</span></span></code></pre></div></section><section><h2 id=deploy-with-wrangler>Deploy with Wrangler</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>wrangler pages publish &lt;directory&gt;
+</span></span></code></pre></div></section><section><h2 id=01-basic>01 Basic</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>└── pages
+</span></span><span style=display:flex><span>    └── index.html
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>wrangler pages dev ./pages
+</span></span></code></pre></div></section><section><h2 id=02-vite>02 Vite</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── index.html
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>└── vite.config.ts
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>wrangler pages dev -- vite
+</span></span></code></pre></div></section><section><h2 id=what-is-vite>What is Vite?</h2><blockquote><p>Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts:</p><ul><li>A dev server - &mldr;</li><li>A build command - &mldr;</li></ul></blockquote><p><a href=https://vitejs.dev/guide/>vitejs.dev/guide/</a></p></section><section><h2 id=03-react>03 React</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── index.html
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>├── src
+</span></span><span style=display:flex><span>│   ├── App.tsx
+</span></span><span style=display:flex><span>│   └── main.tsx
+</span></span><span style=display:flex><span>├── tsconfig.json
+</span></span><span style=display:flex><span>└── vite.config.ts
+</span></span></code></pre></div></section><section><h2 id=04-functions>04 Functions</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── hello.ts
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>└── pages
+</span></span><span style=display:flex><span>    └── index.html
+</span></span></code></pre></div></section><section><h2 id=05-hono>05 Hono</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── api
+</span></span><span style=display:flex><span>│       └── [[route]].ts
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>└── pages
+</span></span><span style=display:flex><span>    └── index.html
+</span></span></code></pre></div></section><section><h2 id=06-d1>06 D1</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── api
+</span></span><span style=display:flex><span>│       └── [[route]].ts
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>├── pages
+</span></span><span style=display:flex><span>│   └── index.html
+</span></span><span style=display:flex><span>├── posts.sql
+</span></span><span style=display:flex><span>└── wrangler.toml
+</span></span></code></pre></div></section><section><h2 id=07-rpc>07 RPC</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── api
+</span></span><span style=display:flex><span>│       └── [[route]].ts
+</span></span><span style=display:flex><span>├── index.html
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>├── src
+</span></span><span style=display:flex><span>│   ├── App.tsx
+</span></span><span style=display:flex><span>│   └── main.tsx
+</span></span><span style=display:flex><span>├── tsconfig.json
+</span></span><span style=display:flex><span>└── vite.config.ts
+</span></span></code></pre></div></section><section><h2 id=08-testing>08 Testing</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── api
+</span></span><span style=display:flex><span>│       └── [[route]].ts
+</span></span><span style=display:flex><span>├── jest.config.js
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>├── pages
+</span></span><span style=display:flex><span>│   └── index.html
+</span></span><span style=display:flex><span>└── server
+</span></span><span style=display:flex><span>    ├── index.test.ts
+</span></span><span style=display:flex><span>    └── index.ts
+</span></span></code></pre></div></section><section><h2 id=full-stack--todohttpsgithubcomyusukebehono-examplestreemainprojectstodo>Full-stack &ldquo;<a href=https://github.com/yusukebe/hono-examples/tree/main/projects/todo%3E>TODO</a>&rdquo;</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=nohighlight data-noescape><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── common
+</span></span><span style=display:flex><span>│   └── types.ts
+</span></span><span style=display:flex><span>├── front
+</span></span><span style=display:flex><span>│   ├── App.tsx
+</span></span><span style=display:flex><span>│   ├── client.ts
+</span></span><span style=display:flex><span>│   ├── components
+</span></span><span style=display:flex><span>│   │   ├── AddTaskForm.tsx
+</span></span><span style=display:flex><span>│   │   ├── TaskItem.tsx
+</span></span><span style=display:flex><span>│   │   └── TaskList.tsx
+</span></span><span style=display:flex><span>│   └── main.tsx
+</span></span><span style=display:flex><span>├── functions
+</span></span><span style=display:flex><span>│   └── api
+</span></span><span style=display:flex><span>│       └── [[route]].ts
+</span></span><span style=display:flex><span>├── index.html
+</span></span><span style=display:flex><span>├── package.json
+</span></span><span style=display:flex><span>├── server
+</span></span><span style=display:flex><span>│   └── index.ts
+</span></span><span style=display:flex><span>├── todo.sql
+</span></span><span style=display:flex><span>├── tsconfig.json
+</span></span><span style=display:flex><span>├── vite.config.ts
+</span></span><span style=display:flex><span>└── wrangler.toml
+</span></span></code></pre></div></section><section><h2 id=wrap-up>Wrap-up</h2><ul><li>Create a full-stack application on Cloudflare Pages</li><li>Web API with Cloudflare Functions</li><li>Database with Cloudflare D1</li><li>React SPA in <code>pages</code></li></ul></section></div></div><script type=text/javascript src=/slides/reveal-hugo/object-assign.js></script>
+<a href=/slides/reveal-js/css/print/ id=print-location style=display:none></a>
+<script type=text/javascript>var printLocationElement=document.getElementById("print-location"),link=document.createElement("link");link.rel="stylesheet",link.type="text/css",link.href=printLocationElement.href+(window.location.search.match(/print-pdf/gi)?"pdf.css":"paper.css"),document.getElementsByTagName("head")[0].appendChild(link)</script><script type=application/json id=reveal-hugo-site-params>{"custom_theme":"stylesheets/custom-theme.scss","custom_theme_compile":true}</script><script type=application/json id=reveal-hugo-page-params>null</script><script src=/slides/reveal-js/js/reveal.js></script>
+<script type=text/javascript>function camelize(e){return e&&Object.keys(e).forEach(function(t){newK=t.replace(/(_\w)/g,function(e){return e[1].toUpperCase()}),newK!=t&&(e[newK]=e[t],delete e[t])}),e}var revealHugoDefaults={center:!0,controls:!0,history:!0,progress:!0,transition:"slide"},revealHugoSiteParams=JSON.parse(document.getElementById("reveal-hugo-site-params").innerHTML),revealHugoPageParams=JSON.parse(document.getElementById("reveal-hugo-page-params").innerHTML),options=Object.assign({},camelize(revealHugoDefaults),camelize(revealHugoSiteParams),camelize(revealHugoPageParams));Reveal.initialize(options)</script><script type=text/javascript src=/slides/reveal-js/plugin/markdown/marked.js></script>
+<script type=text/javascript src=/slides/reveal-js/plugin/markdown/markdown.js></script>
+<script type=text/javascript src=/slides/reveal-js/plugin/highlight/highlight.js></script>
+<script type=text/javascript src=/slides/reveal-js/plugin/zoom-js/zoom.js></script>
+<script type=text/javascript src=/slides/reveal-js/plugin/notes/notes.js></script></body></html>
