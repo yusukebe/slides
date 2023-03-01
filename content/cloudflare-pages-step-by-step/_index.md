@@ -1,8 +1,8 @@
 ---
 title: "Cloudflare Pages Step by Step"
-date: 2023-02-23T18:50:54+09:00
+date: 2023-03-01T22:47:06+09:00
 outputs: 'Reveal'
-draft: true
+draft: false
 ---
 
 # Cloudflare Pages Step by Step
